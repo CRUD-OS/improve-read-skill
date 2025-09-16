@@ -241,7 +241,7 @@ export default function BookManager() {
             disabled={
               isSubmitting || !formData.title.trim() || !formData.content.trim()
             }
-            className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 text-lg"
+            className="w-full bg-green-500 hover:bg-purple-700 text-white py-3 text-lg"
           >
             {isSubmitting ? (
               <>

@@ -33,11 +33,13 @@ const QUESTIONS: Question[] = [
 ];
 
 export default function FourOptions() {
-  const [selected, setSelected] = useState<Record<number, number | null>>(() => {
-    const init: Record<number, number | null> = {};
-    QUESTIONS.forEach((q) => (init[q.id] = null));
-    return init;
-  });
+  const [selected, setSelected] = useState<Record<number, number | null>>(
+    () => {
+      const init: Record<number, number | null> = {};
+      QUESTIONS.forEach((q) => (init[q.id] = null));
+      return init;
+    }
+  );
 
   const [revealed, setRevealed] = useState<Record<number, boolean>>(() => {
     const init: Record<number, boolean> = {};
@@ -46,7 +48,8 @@ export default function FourOptions() {
   });
 
   const correctCount = QUESTIONS.reduce(
-    (acc, q) => (revealed[q.id] && selected[q.id] === q.correctIndex ? acc + 1 : acc),
+    (acc, q) =>
+      revealed[q.id] && selected[q.id] === q.correctIndex ? acc + 1 : acc,
     0
   );
 
@@ -64,10 +67,12 @@ export default function FourOptions() {
       "justify-between text-lg font-semibold rounded-2xl py-3 shadow-md hover:scale-105 transition-transform w-full flex px-5 ";
 
     if (!isRevealed) {
-      base += "bg-blue-400 hover:bg-blue-100 border-2 border-blue-100 text-black";
+      base += " bg-green-50 hover:bg-green-500  text-black";
     } else {
-      if (idx === q.correctIndex) base += "bg-green-400 border-green-500 text-white";
-      else if (sel === idx && idx !== q.correctIndex) base += "bg-red-400 border-red-500 text-white line-through";
+      if (idx === q.correctIndex)
+        base += "bg-green-400 border-green-500 text-black";
+      else if (sel === idx && idx !== q.correctIndex)
+        base += "bg-red-400 border-red-500 text-black line-through";
       else base += "bg-yellow-50 border-yellow-200 text-black";
     }
 
@@ -77,9 +82,11 @@ export default function FourOptions() {
   const batteryPercent = Math.round((correctCount / QUESTIONS.length) * 100);
 
   return (
-    <Card className="max-w-3xl mx-auto p-4 space-y-6 bg-blue-400">
+    <Card className="max-w-3xl mx-auto p-4 space-y-6 bg-gradient-to-br from-green-50 to-teal-100 ">
       {/* Гарчиг */}
-      <h2 className="text-3xl font-extrabold text-center ">🔍 Асуулт & Хариулт </h2>
+      <h2 className="text-3xl font-extrabold text-center ">
+        🔍 Асуулт & Хариулт{" "}
+      </h2>
 
       {/* Battery progress */}
       <div className="w-full bg-gray-300 h-6 rounded-full overflow-hidden relative shadow-inner">
@@ -94,7 +101,7 @@ export default function FourOptions() {
 
       {/* Асуултууд */}
       {QUESTIONS.map((q) => (
-        <Card key={q.id} className="bg-blue-300 shadow-lg rounded-3xl border-2 border-blue-200">
+        <Card key={q.id} className="shadow-lg rounded-3xl border-2 ">
           <CardContent className="space-y-4 ">
             <h3 className="text-xl font-bold ">
               {q.id}. {q.text}
@@ -107,7 +114,9 @@ export default function FourOptions() {
                   className={optionClasses(q, idx)}
                   onClick={() => handleSelect(q, idx)}
                 >
-                  <span>{String.fromCharCode(65 + idx)}. {opt}</span>
+                  <span>
+                    {String.fromCharCode(65 + idx)}. {opt}
+                  </span>
                   {revealed[q.id] && (
                     <span className="ml-2 text-xl">
                       {idx === q.correctIndex
@@ -124,7 +133,9 @@ export default function FourOptions() {
             {revealed[q.id] && (
               <div
                 className={`mt-1 text-md font-medium ${
-                  selected[q.id] === q.correctIndex ? "text-green-600" : "text-red-600"
+                  selected[q.id] === q.correctIndex
+                    ? "text-green-600"
+                    : "text-red-600"
                 }`}
               >
                 {selected[q.id] === q.correctIndex

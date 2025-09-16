@@ -19,13 +19,13 @@ export default function Page() {
   return (
     <main className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-6xl mx-auto space-y-6">
-        <Card className="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+        <Card className="bg-gradient-to-r from-green-600 to-green-700 text-white">
           <CardHeader>
             <CardTitle className="text-3xl font-bold text-center">
-              Reading Skill Improvement Platform
+              Унших ур чадварыг сайжруулах платформ
             </CardTitle>
             <p className="text-center text-blue-100">
-              AI-powered learning with intelligent question generation
+              Ухаалаг асуулт үүсгэх хиймэл оюун ухаанд суурилсан сургалт
             </p>
           </CardHeader>
         </Card>

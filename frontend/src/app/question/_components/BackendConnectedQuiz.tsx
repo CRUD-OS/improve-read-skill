@@ -382,7 +382,7 @@ export default function BackendConnectedQuiz() {
                   onClick={() => handleOptionSelect(currentQuestion.id, option)}
                   className={`w-full justify-start p-4 text-left h-auto ${
                     isSelected
-                      ? "bg-blue-600 text-white border-blue-700"
+                      ? "bg-blue-500 text-white border-blue-700"
                       : "bg-gray-100 hover:bg-gray-200 text-gray-800 border-gray-300"
                   }`}
                   variant="outline"
