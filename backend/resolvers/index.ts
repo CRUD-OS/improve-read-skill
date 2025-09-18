@@ -10,12 +10,15 @@ export const resolvers = {
     generateQuestionsWithContent: Mutation.generateQuestionsWithContent,
     generateMCQQuestions: Mutation.generateMCQQuestions,
     submitAnswer: Mutation.submitAnswer,
+    transcribeAudio: Mutation.transcribeAudio,
   },
   Query: {
     getUsers: Query.getUsers,
     getQuestionsForBook: Query.getQuestionsForBook,
     getUserAnswers: Query.getUserAnswers,
     getUserScore: Query.getUserScore,
+    getContent: Query.getContent,
+    getTranscription: Query.getTranscription,
   },
   Question: {
     option: (parent: any) => {

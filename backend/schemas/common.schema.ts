@@ -85,12 +85,25 @@ type UserScore {
   score: Int!
   percentage: Int!
 }
+type Transcription {
+  id: ID!
+  text: String!
+  userId: ID!
+  bookId: ID!
+  isCorrect: Boolean!
+  createdAt: String!
+  wordCount: Int!
+  duration: Int
+}
 
   type Query {
     getUsers: [User!]!
     getQuestionsForBook(bookId: ID, chapterId: ID): [Question!]!
     getUserAnswers(userId: ID!, bookId: ID, chapterId: ID): [Answer!]!
     getUserScore(userId: ID!, bookId: ID, chapterId: ID): UserScore!
+    getContent(bookId: ID!):Book!
+    getTranscriptions(userId: ID!): [Transcription]!
+    getTranscription(id: ID!): Transcription
   }
 
   type Mutation {
@@ -120,5 +133,6 @@ type UserScore {
       bookId: ID
       chapterId: ID
     ): AnswerResult!
+    transcribeAudio(userId: ID!, bookId: ID!, audioBase64: String!): Transcription!
   }
 `;

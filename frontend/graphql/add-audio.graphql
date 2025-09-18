@@ -1,0 +1,9 @@
+mutation TranscribeAudio($userId: ID!, $bookId: ID!, $audioBase64: String!) {
+  transcribeAudio(userId: $userId, bookId: $bookId, audioBase64: $audioBase64) {
+    id
+    text
+    duration
+    wordCount
+    isCorrect
+  }
+}

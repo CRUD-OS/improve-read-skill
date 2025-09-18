@@ -87,6 +87,7 @@ export type Mutation = {
   generateQuestions: Array<Scalars['String']['output']>;
   generateQuestionsWithContent: GeneratedQuestions;
   submitAnswer: AnswerResult;
+  transcribeAudio: Transcription;
 };
 
 
@@ -147,18 +148,43 @@ export type MutationSubmitAnswerArgs = {
   userId: Scalars['ID']['input'];
 };
 
+
+export type MutationTranscribeAudioArgs = {
+  audioBase64: Scalars['String']['input'];
+  bookId: Scalars['ID']['input'];
+  userId: Scalars['ID']['input'];
+};
+
 export type Query = {
   __typename?: 'Query';
+  getContent: Book;
   getQuestionsForBook: Array<Question>;
+  getTranscription?: Maybe<Transcription>;
+  getTranscriptions: Array<Maybe<Transcription>>;
   getUserAnswers: Array<Answer>;
   getUserScore: UserScore;
   getUsers: Array<User>;
 };
 
 
+export type QueryGetContentArgs = {
+  bookId: Scalars['ID']['input'];
+};
+
+
 export type QueryGetQuestionsForBookArgs = {
   bookId?: InputMaybe<Scalars['ID']['input']>;
   chapterId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QueryGetTranscriptionArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type QueryGetTranscriptionsArgs = {
+  userId: Scalars['ID']['input'];
 };
 
 
@@ -193,6 +219,18 @@ export type QuestionOptions = {
   options: Array<Scalars['String']['output']>;
 };
 
+export type Transcription = {
+  __typename?: 'Transcription';
+  bookId: Scalars['ID']['output'];
+  createdAt: Scalars['String']['output'];
+  duration?: Maybe<Scalars['Int']['output']>;
+  id: Scalars['ID']['output'];
+  isCorrect: Scalars['Boolean']['output'];
+  text: Scalars['String']['output'];
+  userId: Scalars['ID']['output'];
+  wordCount: Scalars['Int']['output'];
+};
+
 export type User = {
   __typename?: 'User';
   email: Scalars['String']['output'];
@@ -210,6 +248,15 @@ export type UserScore = {
   totalQuestions: Scalars['Int']['output'];
   userId: Scalars['ID']['output'];
 };
+
+export type TranscribeAudioMutationVariables = Exact<{
+  userId: Scalars['ID']['input'];
+  bookId: Scalars['ID']['input'];
+  audioBase64: Scalars['String']['input'];
+}>;
+
+
+export type TranscribeAudioMutation = { __typename?: 'Mutation', transcribeAudio: { __typename?: 'Transcription', id: string, text: string, duration?: number | null, wordCount: number, isCorrect: boolean } };
 
 export type AddBookMutationVariables = Exact<{
   title: Scalars['String']['input'];
@@ -277,6 +324,45 @@ export type SubmitAnswerMutationVariables = Exact<{
 export type SubmitAnswerMutation = { __typename?: 'Mutation', submitAnswer: { __typename?: 'AnswerResult', id: string, questionId: string, userAnswer: string, correctAnswer: string, isCorrect: boolean, explanation?: string | null, options?: { __typename?: 'QuestionOptions', options: Array<string>, explanation: string } | null } };
 
 
+export const TranscribeAudioDocument = gql`
+    mutation TranscribeAudio($userId: ID!, $bookId: ID!, $audioBase64: String!) {
+  transcribeAudio(userId: $userId, bookId: $bookId, audioBase64: $audioBase64) {
+    id
+    text
+    duration
+    wordCount
+    isCorrect
+  }
+}
+    `;
+export type TranscribeAudioMutationFn = Apollo.MutationFunction<TranscribeAudioMutation, TranscribeAudioMutationVariables>;
+
+/**
+ * __useTranscribeAudioMutation__
+ *
+ * To run a mutation, you first call `useTranscribeAudioMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useTranscribeAudioMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [transcribeAudioMutation, { data, loading, error }] = useTranscribeAudioMutation({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *      bookId: // value for 'bookId'
+ *      audioBase64: // value for 'audioBase64'
+ *   },
+ * });
+ */
+export function useTranscribeAudioMutation(baseOptions?: Apollo.MutationHookOptions<TranscribeAudioMutation, TranscribeAudioMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<TranscribeAudioMutation, TranscribeAudioMutationVariables>(TranscribeAudioDocument, options);
+      }
+export type TranscribeAudioMutationHookResult = ReturnType<typeof useTranscribeAudioMutation>;
+export type TranscribeAudioMutationResult = Apollo.MutationResult<TranscribeAudioMutation>;
+export type TranscribeAudioMutationOptions = Apollo.BaseMutationOptions<TranscribeAudioMutation, TranscribeAudioMutationVariables>;
 export const AddBookDocument = gql`
     mutation AddBook($title: String!, $content: String!, $author: String, $chapters: Int, $categories: [String], $image: [String], $audio_url: [String]) {
   addBook(
