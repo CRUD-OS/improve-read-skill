@@ -80,6 +80,10 @@ export default function BackendConnectedQuiz() {
 
   const [currentTimer, setCurrentTimer] = useState(0);
 
+  const [isReading, setIsReading] = useState(false);
+  const [readingStartTime, setReadingStartTime] = useState<number | null>(null);
+  const [readingDuration, setReadingDuration] = useState(0);
+
   const [generateMCQQuestions, { loading: generatingQuestions }] = useMutation(
     GenerateMcqQuestionsDocument
   );
@@ -120,8 +124,10 @@ export default function BackendConnectedQuiz() {
         setSelectedAnswers({});
         setSubmittedAnswers({});
         setShowResults(false);
+        setIsReading(false);
+        setReadingStartTime(null);
       }
-      console.log(result.data?.generateMCQQuestions, "generate questions");
+      // console.log(result.data?.generateMCQQuestions, "generate questions");
     } catch (error) {
       console.error("Error:", error);
       alert("Failed to generate questions.");
@@ -156,7 +162,7 @@ export default function BackendConnectedQuiz() {
             chapterId: question.chapterId ?? "",
             questionId,
             answer: userAnswer,
-            timeDuration: currentTimer,
+            timeDuration: readingDuration,
           },
         });
 
@@ -200,6 +206,18 @@ export default function BackendConnectedQuiz() {
     0
   );
 
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+
+    if (isReading && readingStartTime !== null) {
+      interval = setInterval(() => {
+        setReadingDuration(Math.floor((Date.now() - readingStartTime) / 1000));
+      }, 1000);
+    }
+
+    return () => clearInterval(interval);
+  }, [isReading, readingStartTime]);
+
   if (questions.length === 0) {
     return (
       <Card className="max-w-4xl mx-auto p-6 bg-gradient-to-br from-blue-50 to-indigo-100">
@@ -226,6 +244,22 @@ export default function BackendConnectedQuiz() {
               />
               {/* <p onClick={}></p> */}
             </div>
+            <Button
+              onClick={() => {
+                setIsReading(true);
+                setReadingStartTime(Date.now());
+              }}
+              disabled={isReading || !content.trim()}
+              className="bg-green-600 text-white"
+            >
+              Уншиж эхлэх
+            </Button>
+            {isReading && (
+              <p className="text-sm text-gray-600">
+                Уншиж буй хугацаа:{" "}
+                <span className="font-bold">{readingDuration} секунд</span>
+              </p>
+            )}
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>

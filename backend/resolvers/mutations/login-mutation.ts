@@ -8,7 +8,7 @@ export const loginUser = async (_: unknown, args: { name: string }) => {
 
   const user = await User.findOne({ name: args.name });
   if (!user) {
-    throw new Error("Invalid credentials");
+    throw new Error("Invalid user");
   }
 
   const token = jwt.sign({ userId: user._id }, JWT_SECRET, {
