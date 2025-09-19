@@ -90,6 +90,18 @@ type UserScore {
   score: Int!
   percentage: Int!
 }
+ type Transcription {
+  id: ID!
+  text: String!
+  userId: ID!
+  bookId: ID!
+  isCorrect: Boolean!
+  score: Int!
+  createdAt: String!
+  wordCount: Int!
+  duration: Int
+}
+
 
   type Query {
     getUsers: [User!]!
@@ -102,6 +114,8 @@ type UserScore {
     getUserProgress(userId:ID!): [UserProgressResponse]
     getUserById(userId:ID!) : User!
 
+    getTranscriptions(userId: ID!): [Transcription]!
+    getTranscription(id: ID!): Transcription
   }
 
  type UserProgressResponse {
@@ -130,5 +144,27 @@ type UserScore {
 
     userProgress(userId: ID, bookId: ID, chapterId: ID, questionId: ID!, answer: String!, timeDuration: Int!):UserProgressResponse
     loginUser(name: String!): AuthPayload!
+    generateQuestionsWithContent(
+      content: String!
+      bookId: ID
+      chapterId: ID
+      difficulty: String
+      numberOfQuestions: Int
+    ): GeneratedQuestions!
+    generateMCQQuestions(
+      content: String!
+      bookId: ID
+      chapterId: ID
+      difficulty: String
+      numberOfQuestions: Int
+      language: String
+    ): [Question!]!
+    submitAnswer(
+      questionId: ID!
+      userAnswer: String!
+      bookId: ID
+      chapterId: ID
+    ): AnswerResult!
+     transcribeAudio(userId: ID!, bookId: ID!, audioBase64: String!): Transcription!
   }
 `;
