@@ -2,7 +2,7 @@
 
 import React from 'react'
 import Header from './_components/Header'
-import HomeWork from './_components/HomeWork'
+import HomeWork from './_components/HomeWorks'
 import LevelUpGame from './_components/LevelUpGame'
 
 const UserPage = () => {
