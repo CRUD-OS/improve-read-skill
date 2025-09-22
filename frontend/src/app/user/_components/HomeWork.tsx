@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import Link from 'next/link'
 
 const HomeWork = () => {
   const weekDays = [
@@ -43,9 +44,9 @@ const HomeWork = () => {
             "Өнөөдөр даалгавар байхгүй"}
         </div>
         <div className="mt-4 w-full">
-          <Button size="lg" variant="default" className="w-full">
+          <Link href="/homeWork"><Button size="lg" variant="default" className="w-full">
             Даалгавар хийх
-          </Button>
+          </Button></Link>
         </div>
       </CardContent>
     </Card>
