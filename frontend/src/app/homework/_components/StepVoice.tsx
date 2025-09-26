@@ -91,6 +91,7 @@ export default function StepVoice({ onFinish }: StepVoiceProps) {
                 audioBase64: base64data,
               },
             });
+
             if (data?.transcribeAudio) {
               setTranscriptResult({
                 text: data.transcribeAudio.text,

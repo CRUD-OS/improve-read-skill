@@ -76,15 +76,17 @@ export default function TranscriptionPage() {
         reader.onloadend = async () => {
           const base64data: string =
             (reader.result as string)?.split(",")[1] || "";
-
+          console.log("Base64 урт:", base64data.length);
           try {
             const { data } = await transcribeAudio({
               variables: {
                 userId: "68c7a0a49f6ae7515b7f0508",
-                bookId: "68c7a4a33571925f591602ea",
+                bookId: "68d2a4998a9727f7fd046298",
                 audioBase64: base64data,
               },
             });
+
+            console.log("Мутациас ирсэн дата:", data);
 
             if (data?.transcribeAudio) {
               setTranscriptResult({
